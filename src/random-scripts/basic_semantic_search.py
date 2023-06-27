@@ -53,7 +53,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--episode_number",
         type=str,
-        help="Step 1. Copy/paste YT transcript of All-In to raw folder. Step 2. Input episode number in format EXXX, example: E132",
+        help="Episode number, example: E132",
     ),
     args = parser.parse_args()
     main(args.query, args.n_answers, args.episode_number)
