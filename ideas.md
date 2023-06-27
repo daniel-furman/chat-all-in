@@ -1,0 +1,3 @@
+- radio filters for episode + model type
+- use mpt-30b front end + falcon api endpoint code for hf + custom endpoint code for openai
+- 
