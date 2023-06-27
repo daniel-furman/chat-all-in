@@ -121,7 +121,7 @@ celerybeat.pid
 
 # Environments
 .env
-.venv
+.venv*
 env/
 venv/
 ENV/
@@ -160,4 +160,5 @@ cython_debug/
 #.idea/
 
 # Project specific ignores
-test.ipynb
+# test.ipynb
+# ideas.md
