@@ -1,2 +1,13 @@
-cleantext==1.1.4
-numpy==1.24.4
+cleantext
+numpy
+pandas
+openai
+torch
+transformers
+sentencepiece
+einops
+datasets
+black
+python-dotenv
+openpyxl
+sentence_transformers
