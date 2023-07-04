@@ -3,7 +3,7 @@
 - for timestamps, do separate semantic search on section titles against input and just put see this section for more
 - gpt-3.5-turbo-16k and mpt-7b-chat-16k as tester backbones
 - follow ask if context is relevant to last request in the message dialogue, if not, delete old context insert new context, keep dialogue history though
-- tiktok token counter for left-side truncation 
+- tiktok token counter for openai truncation 
 - semantic search on section summaries, full text as context input context -> works with question callback and 16k context windows, keep one "context" section at a time regardless of dialogue.
-
-
+- save conversations from chatgpt sessions, mix in full and smaller sections of context. Save in mpt format with the context. Then, fine-tune some open-source models on this dataset.  
+- give examples via gradio style: "Summarize section 1", "..." 
