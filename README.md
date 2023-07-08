@@ -3,4 +3,6 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black) 
 
 # All-In-Copilot
-Chatbot for up-to-date M&amp;A news built on top of the "[All-In](https://www.youtube.com/@allin/podcasts)" podcast. See [link](https://huggingface.co/spaces/dfurman/chat-all-in) for the application. 
+Chatbot for up-to-date M&amp;A news built on top of the "[All-In](https://www.youtube.com/@allin/podcasts)" podcast. <br>
+
+See running [demo](https://huggingface.co/spaces/dfurman/chat-all-in). 

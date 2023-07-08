@@ -7,7 +7,7 @@ from src.chat_class import Chat
 
 # Logging
 logging.basicConfig(format="%(asctime)s - %(message)s", level=logging.INFO)
-logging.warning("App started...")
+logging.warning("START: App running...")
 
 
 EPISODES = [

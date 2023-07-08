@@ -117,11 +117,11 @@ class Chat:
         for itr, section_title in enumerate(ds_episodes[episode_num]["section_title"]):
             assistant_response += f"{itr}. {section_title} ({ds_episodes[episode_num]['section_time_stamp'][itr]})\n"
         assistant_response += (
-            "\nNow you can converse with the chatbot about these topics."
+            "\nYou can now converse with the assistant about this episode!"
         )
 
         history[-1][1] = ""
         for character in assistant_response:
             history[-1][1] += character
-            time.sleep(0.001)
+            time.sleep(0.00075)
             yield history
