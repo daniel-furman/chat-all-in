@@ -1,13 +1,3 @@
-cleantext
-numpy
-pandas
 openai
-torch
-transformers
-sentencepiece
-einops
 datasets
-black
-python-dotenv
-openpyxl
-sentence_transformers
+gradio>=3.36.1

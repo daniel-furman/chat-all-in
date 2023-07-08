@@ -1,0 +1,11 @@
+cleantext
+numpy
+pandas
+torch
+transformers
+sentencepiece
+datasets
+black
+python-dotenv
+openpyxl
+sentence_transformers

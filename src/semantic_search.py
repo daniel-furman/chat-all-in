@@ -1,15 +1,17 @@
 import os
 from argparse import ArgumentParser
-from torch.nn.functional import cosine_similarity
+import logging
+
 import pandas as pd
-import torch
+from torch.nn.functional import cosine_similarity
+from torch import randn
 from sentence_transformers import SentenceTransformer
 
 
 # python basic_semantic_search.py --query "tiger global" --n_answers 1 --episode_number E134
 
 
-def main(
+def basic_semantic_search(
     query: str,
     n_answers: int,
     episode_number: str,
@@ -18,12 +20,13 @@ def main(
     os.chdir("../..")
     model_name = "sentence-transformers/all-mpnet-base-v2"
 
+    # change this to HF read then to pd
     corpus_texts = corpus_texts = pd.read_parquet(
         f"data/all-in-transcripts/cleaned/{episode_number}_sections_full_cleaned.parquet"
     )
     model = SentenceTransformer(model_name)
 
-    corpus_emb = torch.randn(len(corpus_texts.section_summary), 768)
+    corpus_emb = randn(len(corpus_texts.section_summary), 768)
     for itr, text in enumerate(corpus_texts["section_summary"]):
         corpus_emb[itr, :] = model.encode(text, convert_to_tensor=True)
     query_emb = model.encode(query, convert_to_tensor=True)
@@ -33,12 +36,12 @@ def main(
 
     corpus_texts["similarity"] = hits.tolist()
 
-    # filter to just top n answers
+    # Filter to just top n answers
     corpus_texts = corpus_texts.sort_values(by="similarity", ascending=False).head(
         n_answers
     )
 
-    print(corpus_texts)
+    logging.warning("Basic semantic search returns: ", corpus_texts)
     return corpus_texts
 
 
@@ -56,4 +59,4 @@ if __name__ == "__main__":
         help="Episode number, example: E132",
     ),
     args = parser.parse_args()
-    main(args.query, args.n_answers, args.episode_number)
+    basic_semantic_search(args.query, args.n_answers, args.episode_number)
