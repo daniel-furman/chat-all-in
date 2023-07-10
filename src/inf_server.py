@@ -2,12 +2,12 @@ import logging
 import time
 from src.llm_boilers import llm_boiler
 
-model_id = "gpt-3.5-turbo"  # "gpt-3.5-turbo-16k",
-model = llm_boiler(model_id)
 
+def call_inf_server(prompt, openai_key):
+    model_id = "gpt-3.5-turbo"  # "gpt-3.5-turbo-16k",
+    model = llm_boiler(model_id, openai_key)
 
-def call_inf_server(prompt):
-    logging.warning(f"Calling inf w/ {model_id} and prompt: {prompt}")
+    logging.warning(f'Inf via "{model_id}"" for prompt "{prompt}"')
 
     try:
         # add context to prompt

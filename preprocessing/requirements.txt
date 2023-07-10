@@ -9,3 +9,4 @@ black
 python-dotenv
 openpyxl
 sentence_transformers
+nltk

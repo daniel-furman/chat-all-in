@@ -6,3 +6,4 @@
 - tiktok token counter for openai truncation 
 - save conversations from chatgpt sessions, mix in full and smaller sections of context. Save in mpt format with the context. Then, fine-tune some open-source models on this dataset.  
 - give examples via gradio style: "Summarize section 1", "..." 
+- add back in "stop" button for generation?

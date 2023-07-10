@@ -116,27 +116,27 @@ def main(ep_number):
     # figure out a way to automate manual cleaning to excel file
     # try uploading to HF if manual cleaning as occured
 
-    excel_cleaned = pd.read_excel(
-        "data/all-in-transcripts/cleaned/E134_sections_full_cleaned.xlsx"
-    )
-    excel_cleaned.to_parquet(
-        "data/all-in-transcripts/cleaned/E134_sections_full_cleaned.parquet"
-    )
-    print(excel_cleaned.head())
-    data_files = {
-        "E134": "data/all-in-transcripts/cleaned/E134_sections_full_cleaned.parquet",
-    }
-    dataset = load_dataset("parquet", data_files=data_files)
+    # excel_cleaned = pd.read_excel(
+    # "data/all-in-transcripts/cleaned/E134_sections_full_cleaned.xlsx"
+    # )
+    # excel_cleaned.to_parquet(
+    # "data/all-in-transcripts/cleaned/E134_sections_full_cleaned.parquet"
+    # )
+    # print(excel_cleaned.head())
+    # data_files = {
+    #     "E134": "data/all-in-transcripts/cleaned/E134_sections_full_cleaned.parquet",
+    # }
+    # dataset = load_dataset("parquet", data_files=data_files)
 
     # This reads the environment variables inside .env
-    load_dotenv()
+    # load_dotenv()
     # Logs into HF hub
-    login(os.getenv("HF_TOKEN"))
+    # login(os.getenv("HF_TOKEN"))
     # push to hub
-    dataset.push_to_hub("dfurman/All-In-Podcast-Transcripts")
+    # dataset.push_to_hub("dfurman/All-In-Podcast-Transcripts")
     # test loading from hub
-    ds = load_dataset("dfurman/All-In-Podcast-Transcripts")
-    print(ds)
+    # ds = load_dataset("dfurman/All-In-Podcast-Transcripts")
+    # print(ds)
 
 
 if __name__ == "__main__":

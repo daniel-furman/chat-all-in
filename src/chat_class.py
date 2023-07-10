@@ -85,9 +85,9 @@ class Chat:
         history.append([user_input, ""])
         return user_input, history
 
-    def bot_turn(self, system, history):
+    def bot_turn(self, system, history, openai_key):
         conversation = self.history_as_formatted_str(system, history)
-        assistant_response = call_inf_server(conversation)
+        assistant_response = call_inf_server(conversation, openai_key)
         # history[-1][-1] = assistant_response
         # return "", history
         history[-1][1] = ""

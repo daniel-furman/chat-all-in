@@ -5,17 +5,13 @@ import gradio as gr
 from src.chat_class import Chat
 
 
-# Logging
 logging.basicConfig(format="%(asctime)s - %(message)s", level=logging.INFO)
-logging.warning("START: App running...")
+logging.warning("READY. App started...")
 
 
 EPISODES = [
     "Jun 23, 2023: Ukraine counteroffensive, China tensions, COVID Patient Zero, RFK Jr reaction & more (E134)",
 ]
-
-if os.environ.get("OPENAI_API_KEY") is None:
-    raise ValueError("OPENAI_API_KEY environment variable must be set")
 
 
 with gr.Blocks(
@@ -23,29 +19,29 @@ with gr.Blocks(
     css=".disclaimer {font-variant-caps: all-small-caps;}",
 ) as demo:
     gr.Markdown(
-        """<h1><center>Chat with the All In Podcast</center></h1>
+        """<h1><center>Chat with the "All In" Podcast</center></h1>
 
-        This is a demo of a chatbot that knows up-to-date M&A news from the [All In](https://www.youtube.com/channel/UCESLZhusAkFfsNsApnjF_Cg) podcast. Start by selecting an episode of interest below - and you're off 🚀.
+        A chatbot that knows up-to-date M&A news from the "[All In](https://www.youtube.com/channel/UCESLZhusAkFfsNsApnjF_Cg)" podcast. Start by entering your OpenAI key and selecting an episode of interest 🚀.
 
 """
     )
-    # to do: change to openaikey input for public release
-    # openai_key = gr.Textbox(
-    # label="OpenAI Key",
-    # value="",
-    # type="password",
-    # placeholder="sk..",
-    # info = "You have to provide your own openai API key.",
-    # )
+
     conversation = Chat()
-    chatbot = gr.Chatbot().style(height=500)
     with gr.Row():
-        with gr.Column():
-            select_episode = gr.Dropdown(
-                EPISODES,
-                label="Select Episode",
-                info="Will add more episodes later!",
-            )
+        openai_key = gr.Textbox(
+            label="OpenAI Key",
+            value="",
+            type="password",
+            placeholder="sk..",
+            info="You have to provide your own OpenAI API key.",
+        )
+    with gr.Row():
+        select_episode = gr.Dropdown(
+            EPISODES,
+            label="Select Episode",
+            info="Will add more episodes later!",
+        )
+    chatbot = gr.Chatbot().style(height=400)
     with gr.Row():
         with gr.Column(scale=2):
             msg = gr.Textbox(
@@ -95,7 +91,7 @@ with gr.Blocks(
         queue=False,
     ).then(
         fn=conversation.bot_turn,
-        inputs=[system, chatbot],
+        inputs=[system, chatbot, openai_key],
         outputs=[chatbot],
         queue=True,
     )
@@ -106,7 +102,7 @@ with gr.Blocks(
         queue=False,
     ).then(
         fn=conversation.bot_turn,
-        inputs=[system, chatbot],
+        inputs=[system, chatbot, openai_key],
         outputs=[chatbot],
         queue=True,
     )

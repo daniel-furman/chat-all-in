@@ -11,8 +11,9 @@ warnings.filterwarnings("ignore")
 
 
 class llm_boiler:
-    def __init__(self, model_id):
+    def __init__(self, model_id, openai_key):
         self.model_id = model_id
+        self.openai_key = openai_key
         for f_idx, run_function in enumerate(MODEL_FUNCTIONS):
             if run_function.__name__.lower() in self.model_id:
                 print(
@@ -25,7 +26,7 @@ class llm_boiler:
                     f"Run function recognized for {self.model_id}: {run_function.__name__.lower()}"
                 )
                 self.run_fn = run_function
-        self.model = self.load_fn(self.model_id)
+        self.model = self.load_fn(self.model_id, self.openai_key)
         self.name = self.run_fn.__name__.lower()
 
     def run(
@@ -45,11 +46,9 @@ MODEL_FUNCTIONS = []
 
 
 # gpt models
-def gpt_loader(
-    model_id: str,
-):
+def gpt_loader(model_id: str, openai_key: str):
     # Load your API key from an environment variable or secret management service
-    openai.api_key = os.getenv("OPENAI_API_KEY")
+    openai.api_key = openai_key  # os.getenv("OPENAI_API_KEY")
     logging.warning(f"model id: {model_id}")
 
     return model_id
@@ -105,7 +104,7 @@ def gpt(
                 }
             )
 
-    logging.warning("Input to openai api call:", messages)
+    logging.warning(f"Input to openai api call: {messages}")
 
     chat_completion = openai.ChatCompletion.create(
         model=model,
@@ -113,7 +112,6 @@ def gpt(
         temperature=temperature,
         stream=True,
     )
-
     return chat_completion
 
 
