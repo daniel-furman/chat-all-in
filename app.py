@@ -10,6 +10,7 @@ logging.warning("READY. App started...")
 
 
 EPISODES = [
+    "Jun 30, 2023: Wagner rebels, SCOTUS ends AA, AI M&A, startups gone bad, spacetime warps & more (E135)",
     "Jun 23, 2023: Ukraine counteroffensive, China tensions, COVID Patient Zero, RFK Jr reaction & more (E134)",
 ]
 
@@ -66,21 +67,15 @@ with gr.Blocks(
                     with gr.Row():
                         change = gr.Button("Change System Prompt")
                         reset = gr.Button("Reset System Prompt")
-            with gr.Row():
-                save_history = gr.Button("Cache Ideal Conversation History")
+            # with gr.Row():
+            # save_history = gr.Button("Cache Ideal Conversation History")
 
     with gr.Row():
         gr.Markdown(
-            "Disclaimer: Chat-All-In can produce factually incorrect output "
-            "and should not be solely relied on to produce factually accurate information. The LLMs were trained on "
-            "various internet datasets; while great efforts were taken to clean the pretraining data, it is "
-            "possible that these models could generate lewd, biased, or otherwise offensive outputs. Additionally, while "
-            "context retrieval is used to mitigate such errors, this method can itself lead to problems for edge cases.",
-            elem_classes=["disclaimer"],
-        )
-    with gr.Row():
-        gr.Markdown(
-            "[Privacy policy](https://gist.github.com/samhavens/c29c68cdcd420a9aa0202d0839876dac)",
+            'Disclaimer: The "Chat-All-In" application can produce factually incorrect outputs '
+            "and should not be solely relied on to produce factually accurate information. While "
+            "context retrieval is used to mitigate errors, this method can itself lead to problems "
+            "for edge cases.",
             elem_classes=["disclaimer"],
         )
 
@@ -91,7 +86,7 @@ with gr.Blocks(
         queue=False,
     ).then(
         fn=conversation.bot_turn,
-        inputs=[system, chatbot, openai_key],
+        inputs=[system, chatbot, openai_key, select_episode],
         outputs=[chatbot],
         queue=True,
     )
@@ -102,7 +97,7 @@ with gr.Blocks(
         queue=False,
     ).then(
         fn=conversation.bot_turn,
-        inputs=[system, chatbot, openai_key],
+        inputs=[system, chatbot, openai_key, select_episode],
         outputs=[chatbot],
         queue=True,
     )
@@ -118,12 +113,12 @@ with gr.Blocks(
         outputs=[chatbot],
         queue=True,
     )
-    save_history.click(
-        fn=conversation.save_history,
-        inputs=[chatbot],
-        outputs=[chatbot],
-        queue=False,
-    )
+    # save_history.click(
+    # fn=conversation.save_history,
+    # inputs=[chatbot],
+    # outputs=[chatbot],
+    # queue=False,
+    # )
     clear.click(lambda: None, None, chatbot, queue=False).then(
         fn=conversation.clear_history,
         inputs=[chatbot],

@@ -1,9 +1,6 @@
-- add openai token text input for user-facing release
 - programmatic data preprocessing via youtube api
 - slack frontend as alternative deployment - possible to use gradio api?
-- for timestamps, just put see this section for more
-- follow ask if context is relevant to last request in the message dialogue, if not, delete old context insert new context, keep dialogue history though (keep one "context" section at a time regardless of dialogue)
 - tiktok token counter for openai truncation 
 - save conversations from chatgpt sessions, mix in full and smaller sections of context. Save in mpt format with the context. Then, fine-tune some open-source models on this dataset.  
-- give examples via gradio style: "Summarize section 1", "..." 
 - add back in "stop" button for generation?
+- add advanced params switches for model type and section retrieval type

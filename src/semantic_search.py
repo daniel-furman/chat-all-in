@@ -2,10 +2,11 @@ import os
 from argparse import ArgumentParser
 import logging
 
-import pandas as pd
-from torch.nn.functional import cosine_similarity
-from torch import randn
 from sentence_transformers import SentenceTransformer
+import pandas as pd
+import numpy as np
+from torch.nn.functional import cosine_similarity
+from torch import from_numpy
 
 
 # python basic_semantic_search.py --query "tiger global" --n_answers 1 --episode_number E134
@@ -16,33 +17,31 @@ def basic_semantic_search(
     n_answers: int,
     episode_number: str,
 ):
-    # change to project root dir
-    os.chdir("../..")
-    model_name = "sentence-transformers/all-mpnet-base-v2"
+    embedding_model_name = "cached-all-mpnet-base-v2"
+    model = SentenceTransformer(embedding_model_name)
 
-    # change this to HF read then to pd
-    corpus_texts = corpus_texts = pd.read_parquet(
-        f"data/all-in-transcripts/cleaned/{episode_number}_sections_full_cleaned.parquet"
+    corpus_texts_metadata = pd.read_parquet(
+        f"./embeddings/{episode_number}_sentence_embeddings_metadata.parquet"
     )
-    model = SentenceTransformer(model_name)
 
-    corpus_emb = randn(len(corpus_texts.section_summary), 768)
-    for itr, text in enumerate(corpus_texts["section_summary"]):
-        corpus_emb[itr, :] = model.encode(text, convert_to_tensor=True)
+    corpus_emb = np.load(f"./embeddings/{episode_number}_sentence_embeddings.npy")
+    corpus_emb = from_numpy(corpus_emb)
     query_emb = model.encode(query, convert_to_tensor=True)
 
     # Getting hits
     hits = cosine_similarity(query_emb[None, :], corpus_emb, dim=1, eps=1e-8)
 
-    corpus_texts["similarity"] = hits.tolist()
+    corpus_texts_metadata["similarity"] = hits.tolist()
 
     # Filter to just top n answers
-    corpus_texts = corpus_texts.sort_values(by="similarity", ascending=False).head(
-        n_answers
-    )
+    corpus_texts_metadata_ordered = corpus_texts_metadata.sort_values(
+        by="similarity", ascending=False
+    ).head(n_answers)
 
-    logging.warning("Basic semantic search returns: ", corpus_texts)
-    return corpus_texts
+    logging.warning(
+        f"SEM SEARCH TOP N SENTENCES: {corpus_texts_metadata_ordered.sentences}"
+    )
+    return corpus_texts_metadata_ordered
 
 
 if __name__ == "__main__":
@@ -56,7 +55,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--episode_number",
         type=str,
-        help="Episode number, example: E132",
+        help="Episode number, example: E134",
     ),
     args = parser.parse_args()
     basic_semantic_search(args.query, args.n_answers, args.episode_number)

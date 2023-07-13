@@ -71,11 +71,11 @@ class Chat:
     def clear_history(self, history):
         return []
 
-    def save_history(self, history):
-        # Getting the current date and time
-        dt = datetime.now()
-        dt = str(dt).replace(" ", "-").replace(":", "-").replace(".", "-")
-        return history
+    # def save_history(self, history):
+    # Getting the current date and time
+    # dt = datetime.now()
+    # dt = str(dt).replace(" ", "-").replace(":", "-").replace(".", "-")
+    # return history
 
     def turn(self, user_input: str):
         self.user_turn(user_input)
@@ -85,11 +85,10 @@ class Chat:
         history.append([user_input, ""])
         return user_input, history
 
-    def bot_turn(self, system, history, openai_key):
+    def bot_turn(self, system, history, openai_key, episode):
+        episode_num = episode.split("(")[-1].split(")")[0]
         conversation = self.history_as_formatted_str(system, history)
-        assistant_response = call_inf_server(conversation, openai_key)
-        # history[-1][-1] = assistant_response
-        # return "", history
+        assistant_response = call_inf_server(conversation, openai_key, episode_num)
         history[-1][1] = ""
         for chunk in assistant_response:
             try:
@@ -100,9 +99,7 @@ class Chat:
                 pass
 
     def user_turn_select_episode(self, history):
-        user_input = (
-            "Starter call: Display background information for the selected episode."
-        )
+        user_input = "Special starter call: Display background information for the selected episode."
         history.append([user_input, ""])
         return history
 
@@ -115,13 +112,11 @@ class Chat:
         )
         assistant_response += "Sections:\n\n"
         for itr, section_title in enumerate(ds_episodes[episode_num]["section_title"]):
-            assistant_response += f"{itr}. {section_title} ({ds_episodes[episode_num]['section_time_stamp'][itr]})\n"
-        assistant_response += (
-            "\nYou can now converse with the assistant about this episode!"
-        )
+            assistant_response += f"{itr+1}. {section_title} ({ds_episodes[episode_num]['section_time_stamp'][itr]})\n"
+        assistant_response += "\nYou can now converse with the assistant about this episode! Ask questions about one section at a time. Try prompts like:\n- Summarize section 1\n- Tell me more info about [insert topic]\n- What were the key points on [insert topic]"
 
         history[-1][1] = ""
         for character in assistant_response:
             history[-1][1] += character
-            time.sleep(0.00075)
+            time.sleep(0.000075)
             yield history
