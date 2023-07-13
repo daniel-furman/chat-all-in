@@ -6,3 +6,5 @@
 Chatbot for up-to-date M&amp;A news built on top of the "[All-In](https://www.youtube.com/@allin/podcasts)" podcast. <br>
 
 See running [web app](https://huggingface.co/spaces/dfurman/chat-all-in) on 🤗 demonstrating a limited-functionality v0 deployment. 
+
+![basic conversation completion](assets/basic_usage.gif)
